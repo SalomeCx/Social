@@ -1,13 +1,18 @@
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.ServerSocket;
+import java.nio.ByteBuffer;
+import java.nio.channels.Selector;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
+import java.nio.charset.*;
+import java.util.Iterator;
+import java.util.Set;
 import java.io.*;
-import java.io.OutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.BufferedReader;
 
 public class Start{
 
@@ -15,12 +20,17 @@ public class Start{
 	private static int port;
 	private static InetAddress address;
 	public Interface ex;
+	
+    private Charset charset = Charset.forName("UTF-8");
+    private CharsetEncoder encoder = charset.newEncoder();
+    private CharsetDecoder decoder = charset.newDecoder();
 
 	public static void main(String[] args){
 		if(args.length > 0){
-		    try{
-			port = Integer.parseInt(args[1]);
-			address = InetAddress.getByName(args[0]);}catch(Exception e){}
+			try{
+				address = InetAddress.getByName(args[0]);
+				port = Integer.parseInt(args[1]);
+				}catch(Exception e){}
 		}
 		else{
 			port=0;
@@ -55,28 +65,62 @@ public class Start{
 	}
 
 	public void listener (){
+		ByteBuffer bb = ByteBuffer.allocate(512);
 		try{
-			ServerSocket server = new ServerSocket(5234);
-			server.setReuseAddress(true);
+			ServerSocketChannel ssc = ServerSocketChannel.open();
+			ServerSocket server = ssc.socket();
+			Selector selector = Selector.open();
+			
+			server.bind(new InetSocketAddress(port));
+			ssc.configureBlocking(false);
+			ssc.register(selector, SelectionKey.OP_ACCEPT);
+			
 			while(true){
-				Socket listen = server.accept();
-				InputStream is = listen.getInputStream();
-				BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"));		
-				readStatus(br);
-				listen.close();
+				selector.select();
+				Set keys = selector.selectedKeys();
+				Iterator it = keys.iterator();
+				
+				while (it.hasNext()){
+					SelectionKey key = (SelectionKey) it.next();
+				
+					if (key.isAcceptable()){
+						Socket listen = server.accept();
+						SocketChannel sc = listen.getChannel();
+						sc.configureBlocking(false);
+						sc.register(selector, SelectionKey.OP_READ);
+					}
+					
+					if(key.isReadable()){
+						SocketChannel st = (SocketChannel) key.channel();
+						int byteRead = st.read(bb);
+						if (byteRead == -1){
+							key.cancel();
+							st.close();
+						}
+						else{
+							String truc = bb.toString();
+							System.out.println("truc ="+truc+"\n");
+							
+						}
+							
+					}
+				}
+				keys.clear();
+
 			}
 		}catch (Exception e){}
 	}
 
 
-	public void readStatus (BufferedReader br){
+	public void readStatus (ByteBuffer bb){
 		try{
-			newStatus = br.readLine();
+
+			System.out.println(newStatus);
 			printStatus();
-			
+
 		}catch (Exception e){}
 	}
-	
+
 	public void printStatus(){
 		ex.himStatus(newStatus);
 	}
