@@ -65,7 +65,7 @@ public class Start{
 	}
 
 	public void listener (){
-		ByteBuffer bb = ByteBuffer.allocate(512);
+		
 		try{
 			ServerSocketChannel ssc = ServerSocketChannel.open();
 			ServerSocket server = ssc.socket();
@@ -90,20 +90,27 @@ public class Start{
 						sc.register(selector, SelectionKey.OP_READ);
 					}
 					
-					if(key.isReadable()){
+					if(key.isReadable() && key.isValid()){
+						ByteBuffer bb = ByteBuffer.allocate(512);
 						SocketChannel st = (SocketChannel) key.channel();
 						int byteRead = st.read(bb);
+						bb.flip();
 						if (byteRead == -1){
 							key.cancel();
 							st.close();
-						}
-						else{
-							String truc = bb.toString();
-							System.out.println("truc ="+truc+"\n");
 							
 						}
-							
+						else {
+							readStatus(bb);
+							key.cancel();
+						}
+							//System.out.println("truc ="+truc+"\n");
+														
+	
+	
 					}
+					
+					
 				}
 				keys.clear();
 
@@ -112,16 +119,21 @@ public class Start{
 	}
 
 
-	public void readStatus (ByteBuffer bb){
+	public String readStatus (ByteBuffer bb){
 		try{
-
+			byte[] buff = new byte[bb.remaining()];
+			//System.out.println(buff);
+			bb.get(buff);
+			//System.out.println(bb);
+			String newStatus = new String(buff);
 			System.out.println(newStatus);
-			printStatus();
+			printStatus(newStatus);
 
 		}catch (Exception e){}
+		return newStatus;
 	}
 
-	public void printStatus(){
+	public void printStatus(String newStatus){
 		ex.himStatus(newStatus);
 	}
 }
