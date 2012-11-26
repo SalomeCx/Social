@@ -34,7 +34,7 @@ public class Interface extends JFrame {
 	}
 
 	public void himStatus(String status){
-		JLabel label = new JLabel("New status > " + status);
+		JLabel label = new JLabel(status);
 		him.add(label);	
 		panel.revalidate();
 	}
