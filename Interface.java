@@ -5,6 +5,14 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import java.util.Date;
+import java.util.Calendar;
+
+import java.io.*;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
@@ -48,13 +56,15 @@ public class Interface extends JFrame {
 		postButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				/* Ajoute le statut */
-				JLabel label = new JLabel("New status > " + postText.getText());
+				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy HH:mm");
+				Date date = new Date();
+				JLabel label = new JLabel(System.getProperty("user.name") + " > " + postText.getText() + " - [" + dateFormat.format(date) + "]");
 				Start.postStatus(postText.getText());
 				postText.setText("");
 				me.add(label);
 				/* Et redessine */
 				panel.validate();
-			}
+			}	
 		});
 
 		postButton.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -75,11 +85,6 @@ public class Interface extends JFrame {
 		me.setAlignmentY(Component.TOP_ALIGNMENT);
 		people.add(me);
 
-		label = new JLabel("my status1");
-		me.add(label);
-		label = new JLabel("my status2");
-		me.add(label);
-
 		/* Une petite séparation entre moi et lui */
 		people.add(Box.createRigidArea(new Dimension(5,0)));
 
@@ -90,11 +95,6 @@ public class Interface extends JFrame {
 		him.setAlignmentY(Component.TOP_ALIGNMENT);
 		people.add(him);
 
-		label = new JLabel("his status1");
-		him.add(label);
-		label = new JLabel("his status2");
-		him.add(label);
-
 		/* De la place pour les autres */
 		people.add(Box.createHorizontalGlue());
 
@@ -103,5 +103,5 @@ public class Interface extends JFrame {
 		setSize(500, 500);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-	}
+}
 }
