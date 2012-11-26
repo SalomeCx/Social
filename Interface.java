@@ -52,6 +52,7 @@ public class Interface extends JFrame {
 		postText.setMaximumSize(new Dimension(Integer.MAX_VALUE, postText.getMinimumSize().height));
 		panel.add(postText);
 		JButton postButton = new JButton("Post");
+		getRootPane().setDefaultButton(postButton);
 
 		postButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
