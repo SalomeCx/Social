@@ -42,6 +42,8 @@ public class Interface extends JFrame {
 	public final void initInterface() {
 		JLabel label;
 
+		final String user = System.getProperty("user.name") + " > ";
+
 		panel = new JPanel();
 		getContentPane().add(panel);
 		/* Afficher d'abord la zone de post, puis les gens */
@@ -59,8 +61,8 @@ public class Interface extends JFrame {
 				/* Ajoute le statut */
 				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy HH:mm");
 				Date date = new Date();
-				JLabel label = new JLabel(System.getProperty("user.name") + " > " + postText.getText() + " - [" + dateFormat.format(date) + "]");
-				Start.postStatus(postText.getText());
+				JLabel label = new JLabel(user + postText.getText() + " - [" + dateFormat.format(date) + "]");
+				Start.postStatus(user + postText.getText() + " - [" + dateFormat.format(date) + "]");
 				postText.setText("");
 				me.add(label);
 				/* Et redessine */
