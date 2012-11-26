@@ -15,9 +15,9 @@ import java.util.Set;
 import java.io.*;
 
 public class Start{
-
+	public static final int port = 5234; 
 	private String newStatus;
-	private static int port;
+	//private static int port;
 	private static InetAddress address;
 	public Interface ex;
 	
@@ -29,12 +29,13 @@ public class Start{
 		if(args.length > 0){
 			try{
 				address = InetAddress.getByName(args[0]);
-				port = Integer.parseInt(args[1]);
+				//port = Integer.parseInt(args[1]);
 				}catch(Exception e){}
 		}
 		else{
-			port=0;
+			//port=0;
 			address=null;
+			System.err.println("pas le bon nombre d'arguments.");
 		}
 		Start test = new Start();
 		test.run();
