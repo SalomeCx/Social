@@ -18,18 +18,23 @@ public class Start{
 	public static final int port = 5234; 
 	private String newStatus;
 	//private static int port;
-	private static InetAddress address;
+	private static InetAddress[] address;
 	public Interface ex;
+    private static int nb;
 	
     private Charset charset = Charset.forName("UTF-8");
     private CharsetEncoder encoder = charset.newEncoder();
     private CharsetDecoder decoder = charset.newDecoder();
 
 	public static void main(String[] args){
-		if(args.length > 0){
+	    nb = args.length;
+		if(nb > 0){
 			try{
-				address = InetAddress.getByName(args[0]);
+			    for (int i = 0; i < nb; i++)
+				{
+				    address[i] = InetAddress.getByName(args[i]);
 				//port = Integer.parseInt(args[1]);
+				}
 				}catch(Exception e){}
 		}
 		else{
@@ -52,17 +57,19 @@ public class Start{
 	public static void postStatus (String status){
 		Socket s;
 		try{
-			s = new Socket(address, port);
-			try{
+		    for (int i = 0; i < nb; i++)
+			{
+			    s = new Socket(address[i], port);
+			    try{
 				OutputStream os = s.getOutputStream();
 				PrintStream ps = new PrintStream(os, false, "utf-8");
 				ps.println(status);
 				ps.flush();
 				ps.close();
 				s.close();
-			}catch(Exception e){}
-		}catch (Exception e){
-			System.out.println("Socket");}
+			    }catch(Exception e){}
+			}
+		}catch (Exception e){}
 	}
 
 	public void listener (){
