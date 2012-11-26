@@ -18,16 +18,17 @@ public class Start{
 	public static final int port = 5234; 
 	private String newStatus;
 	//private static int port;
+    private static int nb;
 	private static InetAddress[] address;
 	public Interface ex;
-    private static int nb;
-	
+
     private Charset charset = Charset.forName("UTF-8");
     private CharsetEncoder encoder = charset.newEncoder();
     private CharsetDecoder decoder = charset.newDecoder();
 
 	public static void main(String[] args){
 	    nb = args.length;
+	    address = new InetAddress[nb];
 		if(nb > 0){
 			try{
 			    for (int i = 0; i < nb; i++)
