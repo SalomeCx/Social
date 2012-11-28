@@ -10,7 +10,8 @@ public class Start extends Interface{
 	try {
 	    tfr = Friend.initFriends("annuaire.xml");
 	} catch (Exception e) { System.err.println("Parser or SAX exception : " + e); }
-	nb = args.length;
+	nb = tfr.length;
+
 	address = new InetAddress[nb];
 	try{
 	    for (int i = 0; i < nb; i++){
