@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<annuaire>
+  <friend>
+    <name>ysenel</name>
+    <address>localhost</address>
+    <ismyfriend>true</ismyfriend>
+    <amherfriend>true</amherfriend>
+  </friend>
+
+  <friend>
+    <name>amivielle</name>
+    <address>localhost</address>
+    <ismyfriend>true</ismyfriend>
+    <amherfriend>true</amherfriend>
+  </friend>
+</annuaire>
+
+
+
