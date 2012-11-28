@@ -8,7 +8,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-
 public class Friend
 {
     private String name;
@@ -86,9 +85,10 @@ public class Friend
 	    
 	doc.getDocumentElement().normalize();
 	
-	NodeList nodes = doc.getElementsByTagName("annuaire");
+	NodeList nodes = doc.getElementsByTagName("friend");
 	
 	int nbfriends = nodes.getLength();
+	System.out.println("taille:" + nbfriends);
 	Friend[] tfriends = new Friend[nbfriends];
 	
 	for (int i = 0; i < nbfriends; i++)
@@ -103,7 +103,7 @@ public class Friend
 						 Boolean.parseBoolean(getValue("amherfriend", el)));
 		    }
 	    }
-	    //} catch (Exception e) { e.printStackTrace();}
+	    //} catch (Exception e) { System.err.println("erreur: " +e);}
 	return tfriends;
     }
 
