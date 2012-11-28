@@ -62,7 +62,7 @@ public class Interface extends JFrame {
 				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy HH:mm");
 				Date date = new Date();
 				JLabel label = new JLabel(user + postText.getText() + " - [" + dateFormat.format(date) + "]");
-				Start.postStatus(user + postText.getText() + " - [" + dateFormat.format(date) + "]");
+				Serveur.postStatus(user + postText.getText() + " - [" + dateFormat.format(date) + "]");
 				postText.setText("");
 				me.add(label);
 				/* Et redessine */
