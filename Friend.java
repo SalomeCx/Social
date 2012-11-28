@@ -1,7 +1,6 @@
 import java.net.*;
 import java.io.*;
 
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
@@ -59,6 +58,11 @@ public class Friend
 	this.amherfriend = false;
     }
 
+    public String getAddress()
+    {
+	return this.address;
+    }
+
     private static String getValue(String tag, Element element) 
     {
 	NodeList nodes = element.getElementsByTagName(tag).item(0).getChildNodes();
@@ -66,43 +70,41 @@ public class Friend
 	return node.getNodeValue();
     }
     
-    public void initFriends(String filename)
+
+    /* Alors oui. C'est très sale. Très moche. C'est la seule manière de renvoyer relativement proprement
+     mon tableau. Moi aussi, ça me brise le coeur. Mais comme disait Abraham Lincoln, "I catch bullets with
+    my skull." */
+    public static Friend[] initFriends(String filename) throws Exception
     {
 	Document doc;
-
+	
 	File annuaire = new File(filename);
-	try {
-	    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-	    DocumentBuilder db = dbf.newDocumentBuilder();
-	    doc = db.parse(annuaire);
+	//try {
+	DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+	DocumentBuilder db = dbf.newDocumentBuilder();
+	doc = db.parse(annuaire);
 	    
-	    doc.getDocumentElement().normalize();
+	doc.getDocumentElement().normalize();
 	
-	    NodeList nodes = doc.getElementsByTagName("annuaire");
+	NodeList nodes = doc.getElementsByTagName("annuaire");
 	
-	    int nbfriends = nodes.getLength();
+	int nbfriends = nodes.getLength();
+	Friend[] tfriends = new Friend[nbfriends];
 	
-	    tfriends = new Friend[nbfriends];
-	
-	    for (int i = 0; i < nbfriends; i++)
-		{
-		    Node node = nodes.item(i);
-		    if (node.getNodeType() == Node.ELEMENT_NODE)
-			{
-			    Element el = (Element) node;
-			    tfriends[i] = new Friend(getValue("name", el),
-						     getValue("address", el),
-						     Boolean.parseBoolean(getValue("ismyfriend", el)),
-						     Boolean.parseBoolean(getValue("amherfriend", el)));
-			}
-		}
-	} catch (Exception e) { e.printStackTrace();}
-	    
-	//	return tfriends;
+	for (int i = 0; i < nbfriends; i++)
+	    {
+		Node node = nodes.item(i);
+		if (node.getNodeType() == Node.ELEMENT_NODE)
+		    {
+			Element el = (Element) node;
+			tfriends[i] = new Friend(getValue("name", el),
+						 getValue("address", el),
+						 Boolean.parseBoolean(getValue("ismyfriend", el)),
+						 Boolean.parseBoolean(getValue("amherfriend", el)));
+		    }
+	    }
+	    //} catch (Exception e) { e.printStackTrace();}
+	return tfriends;
     }
 
-    private Friend[] createFriend(int n)
-    {
-	return new Friend[n];
-    }
 }
