@@ -38,7 +38,7 @@ public class Interface extends JFrame {
 		him.add(label);	
 		panel.revalidate();
 	}
-	
+
 	public final void initInterface() {
 		JLabel label;
 
@@ -106,5 +106,5 @@ public class Interface extends JFrame {
 		setSize(500, 500);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-}
+	}
 }
