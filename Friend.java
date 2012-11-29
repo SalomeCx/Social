@@ -12,8 +12,8 @@ public class Friend
 {
     private String name;
     private String address;
-    private boolean ismyfriend; // Si l'autre est connecte a moi.
-    private boolean amherfriend; // Si je suis connecte a l'autre.
+    private boolean ismyfriend; /* Je suis l'autre? (Non, je suis moi.) */
+    private boolean amherfriend; /* L'autre me suit? */
 
     public Friend[] tfriends;
 
@@ -24,42 +24,35 @@ public class Friend
 	this.ismyfriend = ismyfriend;
 	this.amherfriend = amherfriend;
     }
-
-    /*public Friend()
-    {
-	this.name = null;
-	this.address = null;
-	this.ismyfriend = false;
-	this.amherfriend = false;
-	}*/
     
-    /* retourne si l'autre me suit */
-    public boolean doesFollow()
+    public boolean amFollowed()
     {
 	return this.amherfriend;
     }
-    
-    /* retourne si je suis l'autre */
-    public boolean amFollowed()
+
+    public boolean doFollow()
     {
 	return this.ismyfriend;
-    }
-
-    /* Pour suivre quelqu'un */
-    public void followHer()
-    {
-	this.amherfriend = true;
-    }
-    
-    /* pour ne plus suivre quelqu'un */
-    public void unfollowHer()
-    {
-	this.amherfriend = false;
     }
 
     public String getAddress()
     {
 	return this.address;
+    }
+
+    public String getName()
+    {
+	return this.name;
+    }
+
+    public void unfollow()
+    {
+	this.ismyfriend = false;
+    }
+    
+    public void follow()
+    {
+	this.ismyfriend = true;
     }
 
     private static String getValue(String tag, Element element) 
@@ -69,7 +62,6 @@ public class Friend
 	return node.getNodeValue();
     }
     
-
     /* Alors oui. C'est très sale. Très moche. C'est la seule manière de renvoyer relativement proprement
      mon tableau. Moi aussi, ça me brise le coeur. Mais comme disait Abraham Lincoln, "I catch bullets with
     my skull." */
@@ -88,7 +80,6 @@ public class Friend
 	NodeList nodes = doc.getElementsByTagName("friend");
 	
 	int nbfriends = nodes.getLength();
-	System.out.println("taille:" + nbfriends);
 	Friend[] tfriends = new Friend[nbfriends];
 	
 	for (int i = 0; i < nbfriends; i++)
@@ -105,6 +96,17 @@ public class Friend
 	    }
 	    //} catch (Exception e) { System.err.println("erreur: " +e);}
 	return tfriends;
+    }
+
+    public static void addFriend(Friend[] ftab, String name)
+    {
+	int taille = ftab.length;
+	for (int i = 0; i < taille; i++)
+	    {
+		if (name.equals(ftab[i].getName()))
+		    {
+		    }
+	    }
     }
 
 }

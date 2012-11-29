@@ -1,18 +1,35 @@
 <?xml version="1.0"?>
+
 <annuaire>
   <friend>
     <name>ysenel</name>
+    <address>hoth</address>
+    <ismyfriend>true</ismyfriend>
+    <amherfriend>true</amherfriend>
+  </friend>
+
+  <friend>
+    <name>amiviell</name>
+    <address>cheonech</address>
+    <ismyfriend>false</ismyfriend>
+    <amherfriend>true</amherfriend>
+  </friend>
+
+  <friend>
+    <name>scoavoux</name>
     <address>localhost</address>
     <ismyfriend>true</ismyfriend>
     <amherfriend>true</amherfriend>
   </friend>
 
   <friend>
-    <name>amivielle</name>
-    <address>localhost</address>
+    <name>mdesplat</name>
+    <address>cenva</address>
     <ismyfriend>true</ismyfriend>
     <amherfriend>true</amherfriend>
   </friend>
+
+
 </annuaire>
 
 

@@ -3,6 +3,7 @@ import java.net.InetAddress;
 public class Start extends Interface{
 
     public static InetAddress[] address;
+    //public static boolean[] connected; //true si la personne est connectée, false sinon.
     public static int nb;
     public static Friend[] tfr;
 
