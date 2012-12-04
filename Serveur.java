@@ -19,7 +19,6 @@ public class Serveur extends Start {
 	public static final int port = 5234;
 	private String newStatus;
 	public Interface ex;
-	public boolean decision;
 	private String newCommentaire;
 
 	public Serveur() {
@@ -30,6 +29,8 @@ public class Serveur extends Start {
 		ex.setVisible(true);
 		listener();
 	}
+	
+
 
 	/* Je vais envoyer status, en public si pub est true, en private sinon. */
 	public static void postStatus(String status, boolean pub) {
@@ -101,10 +102,13 @@ public class Serveur extends Start {
 
 	public static void reponseAmis(InetAddress address, boolean reponse) {
 		if (reponse) {
+			System.out.println("Yes\n");
 			// String data = "status public + status privé + liste amis +
 			// commentaires
 			// creationSocket(address, data);
-		} else {
+		} 
+		if (!reponse){
+			System.out.println("No\n");
 			// String data = status public + liste amis
 			// creationSocket(address,data);
 		}
@@ -221,6 +225,7 @@ public class Serveur extends Start {
 			switch (o2) {
 			case 0:
 				try {
+					Interface.fenetreAmis();
 					reponseAmis(InetAddress.getByName(s002), decision); // Demande
 					// d'amis
 				} catch (Exception e) {
