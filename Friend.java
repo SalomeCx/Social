@@ -7,6 +7,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.Attr; 
 
 public class Friend
 {
@@ -17,6 +18,7 @@ public class Friend
 
     public Friend[] tfriends;
 
+    // Constructeur d'ami. 
     public Friend(String name, String address, boolean ismyfriend, boolean amherfriend)
     {
 	this.name = name;
@@ -25,6 +27,7 @@ public class Friend
 	this.amherfriend = amherfriend;
     }
     
+    // Les accesseurs.
     public boolean amFollowed()
     {
 	return this.amherfriend;
@@ -45,26 +48,31 @@ public class Friend
 	return this.name;
     }
 
+    // Ne plus suivre quelqu'un.
     public void unfollow()
     {
 	this.ismyfriend = false;
     }
     
+    // Suivre quelqu'un.
     public void follow()
     {
 	this.ismyfriend = true;
     }
 
-    private static String getValue(String tag, Element element) 
+    protected static String getValue(String tag, Element element) 
     {
 	NodeList nodes = element.getElementsByTagName(tag).item(0).getChildNodes();
 	Node node = (Node) nodes.item(0);
 	return node.getNodeValue();
     }
     
-    /* Alors oui. C'est très sale. Très moche. C'est la seule manière de renvoyer relativement proprement
-     mon tableau. Moi aussi, ça me brise le coeur. Mais comme disait Abraham Lincoln, "I catch bullets with
-    my skull." */
+    /* La fonction crée un tableau Friend[] selon le nombre de "friends" dans le fichier annuaire.xml,
+     * Si je ne throws pas d'exceptions, je dois faire un try catch dans la fonction, MAIS
+     * - Soit je mets l'intégralité de la fonction dans le try catch, et je ne compile pas, parce que le return est dans le try catch.
+     * - Soit je mets l'intégralité de la fonction dans le try catch, moins le return, et je ne compile pas parce que mon tableau n'est peut-être pas initialisé.
+     * - Soit je mets les deux lignes de code concernées dans le try catch, et comme on les utilise après, ça ne compile pas parce qu'elles peuvent ne pas avoir été initialisées.
+     * DONC la solution la plus simple est d'envoyer l'exception au main, parce qu'il fait pas grand chose, il peut quand même s'occuper de ça. */
     public static Friend[] initFriends(String filename) throws Exception
     {
 	Document doc;
@@ -88,7 +96,9 @@ public class Friend
 		if (node.getNodeType() == Node.ELEMENT_NODE)
 		    {
 			Element el = (Element) node;
-			tfriends[i] = new Friend(getValue("name", el),
+			Attr a = el.getAttributeNode("name");
+			String name = a.getValue();
+			tfriends[i] = new Friend(name,
 						 getValue("address", el),
 						 Boolean.parseBoolean(getValue("ismyfriend", el)),
 						 Boolean.parseBoolean(getValue("amherfriend", el)));
