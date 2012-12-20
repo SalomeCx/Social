@@ -10,23 +10,26 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 
 public class Serveur extends Start {
 
-	public static final int port = 5234;
+	public static final int port = 5234; //port par défaut
 	private String newStatus;
-	public Interface ex;
 	private String newCommentaire;
 
 	public Serveur() {
 	}
 
+	//Lancer la socket d'écoute
 	public void run() {
-		ex = new Interface();
-		ex.setVisible(true);
 		listener();
 	}
 	
@@ -35,7 +38,9 @@ public class Serveur extends Start {
 	/* Je vais envoyer status, en public si pub est true, en private sinon. */
 	public static void postStatus(String status, boolean pub) {
 		Socket s;
-		String data = "10" + status;
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy HH:mm");
+		Date date = new Date();
+		String data = "10" + System.getProperty("user.name") + "_&§&_" + dateFormat.format(date) + "_&§&_" + status;
 		for (int i = 0; i < nb; i++) {
 			/*
 			 * Si mon statut est public, je l'envoie à ceux qui me suivent,
@@ -51,6 +56,7 @@ public class Serveur extends Start {
 					ps.flush();
 					ps.close();
 					s.close();
+
 				} catch (Exception e) {
 				}
 			}
@@ -61,82 +67,34 @@ public class Serveur extends Start {
 		}
 	}
 
-	public static void demandeAmis(InetAddress address) {
-		try {
-			String data = "20" + InetAddress.getLocalHost().toString();
-			creationSocket(address, data);
-		} catch (Exception e) {
-		}
-	}
 
-	public static void demandeListeAmis(InetAddress address) {
-		try {
-			String data = "22" + InetAddress.getLocalHost().toString();
-			creationSocket(address, data);
-		} catch (Exception e) {
-		}
-	}
 
-	public static void envoieListeAmis(InetAddress address) {
-		String data = "24"; // + liste amis
-		creationSocket(address, data);
-	}
 
-	public static void envoieStatus(InetAddress address, String status) {
-		String data = "31"; // + status
-		creationSocket(address, data);
-	}
 
-	public static void demandeStatus(InetAddress address) {
-		try {
-			String data = "30" + InetAddress.getLocalHost().toString();
-			creationSocket(address, data);
-		} catch (Exception e) {
-		}
-	}
-
+	//post de Commentaire
 	public static void postCommentaire(InetAddress address, String commentaire) {
 		String data = "40" + commentaire;
 		creationSocket(address, data);
 	}
 
-	public static void reponseAmis(InetAddress address, boolean reponse) {
-		if (reponse) {
-			System.out.println("Yes\n");
-			// String data = "status public + status privé + liste amis +
-			// commentaires
-			// creationSocket(address, data);
-		} 
-		if (!reponse){
-			System.out.println("No\n");
-			// String data = status public + liste amis
-			// creationSocket(address,data);
-		}
+
+
+	//Demande d'amis
+	public static void demandeAmis(InetAddress address){
+		String data = "20" + System.getProperty("user.name") + "_&§&_" + address.getHostName();
+		creationSocket(address, data);
+		
 	}
-
-	public static void traiterListeAmisRecu(String listeAmis) {
-
-	}
-
-	public static void traiterStatusAmisRecu(String listeAmis) {
-
-	}
-
+	
+	//Post d'image
 	public static void postImage(InetAddress address, String image) {
 		String data = "40" + image;
 		creationSocket(address, data);
 	}
 
-	public static void traiterData20(String data) {
-		// On envoie status (public et privé) + liste amis
-	}
 
-	public static void traiterData21(String data) {
-		// On envoie status privé + liste amis
-	}
 
-	// public static boolean decisionAmis
-
+	//Création d'une socket pour envoyer le String "data" à l'addresse "address"
 	public static void creationSocket(InetAddress address, String data) {
 		Socket s;
 		try {
@@ -151,8 +109,9 @@ public class Serveur extends Start {
 		}
 	}
 
+	//Socket d'écoute: select.
+	//On envoit le String reçu à la fonction qui analyse le String: analayseData.
 	public void listener() {
-
 		try {
 			ServerSocketChannel ssc = ServerSocketChannel.open();
 			ServerSocket server = ssc.socket();
@@ -194,14 +153,17 @@ public class Serveur extends Start {
 				}
 				keys.clear();
 			}
-		} catch (Exception e) {
-		}
+		} catch (Exception e) {}
 	}
 
+
+	
+	//Fonction analyseData qui fait appel aux différentes fonctions de traitement par rapport à l'en-tete du String. 
 	public void analyseData(ByteBuffer bb) {
 		byte[] buff = new byte[bb.remaining()];
 		bb.get(buff);
 		String receiveData = new String(buff);
+		System.out.println(receiveData);
 		String so1 = receiveData.substring(0, 1);
 		int o1 = Integer.parseInt(so1);
 		switch (o1) {
@@ -211,13 +173,14 @@ public class Serveur extends Start {
 			switch (o11) {
 			case 0:
 				newStatus = receiveData.substring(2);
-				printStatus(newStatus);
+				Traitement.traiterStatusAmisRecu(newStatus);
 				break;
 			case 1:
 				newCommentaire = receiveData.substring(2);
 				printCommentaire(newCommentaire); // envoi commentaire
 				break;
 			}
+			break;
 		case 2:
 			String so2 = receiveData.substring(1, 2);
 			String s002 = receiveData.substring(1, 2);
@@ -225,27 +188,53 @@ public class Serveur extends Start {
 			switch (o2) {
 			case 0:
 				try {
-					Interface.fenetreAmis();
-					reponseAmis(InetAddress.getByName(s002), decision); // Demande
-					// d'amis
+					
+					final String[] s = Traitement.traiterDemandeAmisRecu(receiveData.substring(2));
+					//final Friend friend = new Friend(s[0], s[1], false, false);
+					ex.demande.setText(s[0] + " vous a ajouté comme ami(e). Voulez-vous?");
+					ex.ajoutAmi.setSize(400, 250);
+					ex.ajoutAmi.setVisible(true);
+			    	ex.ouiOui.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent event) {
+							Start.ajouterAmisDansListe(s[0]);
+							ex.ajoutAmi.setVisible(false);
+						
+							XmlTreat.treatFriend(s[0], "true", "true");
+							
+						}});
+			    	
+			    	ex.ouiNon.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent event) {
+							ex.ajoutAmi.setVisible(false);
+							XmlTreat.treatFriend(s[0], "false", "true");
+								}
+					});
+			    	
+			    	ex.nonNon.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent event) {
+							ex.ajoutAmi.setVisible(false);
+							XmlTreat.treatFriend(s[0], "false", "false");
+								}
+					});
+			    	
 				} catch (Exception e) {
 				}
 				break;
 			case 1:
 				String s005 = receiveData.substring(2);
-				traiterData20(s005); // Réponse (+) amis, envoi liste d'amis +
+				//traiterData20(s005); // Réponse (+) amis, envoi liste d'amis +
 				// status (public et privé) +
 				// commentaires
 				break;
 			case 2:
 				String s006 = receiveData.substring(2);
-				traiterData21(s006); // Réponse (-) amis, envoi liste amis +
+				//traiterData21(s006); // Réponse (-) amis, envoi liste amis +
 				// status public
 				break;
 			case 3:
 				try {
 					String s003 = receiveData.substring(2);
-					envoieListeAmis(InetAddress.getByName(s003)); // Demande
+					//envoieListeAmis(InetAddress.getByName(s003)); // Demande
 					// Liste
 					// Amis, on
 					// envoie la
@@ -255,7 +244,7 @@ public class Serveur extends Start {
 				}
 			case 4:
 				String s = "";
-				traiterListeAmisRecu(s); // On recoit la liste d'un amis et on
+				//traiterListeAmisRecu(s); // On recoit la liste d'un amis et on
 				// la traite
 			}
 			break;
@@ -266,7 +255,7 @@ public class Serveur extends Start {
 				try {
 					String s004 = receiveData.substring(2);
 					String status = "";
-					envoieStatus(InetAddress.getByName(s004), status); // Demande
+					//envoieStatus(InetAddress.getByName(s004), status); // Demande
 					// status
 					// ->
 					// envoie
@@ -276,7 +265,7 @@ public class Serveur extends Start {
 				break;
 			case 1:
 				String s = "";
-				traiterStatusAmisRecu(s);// On recoit les status de l'ami
+				//traiterStatusAmisRecu(s);// On recoit les status de l'ami
 				break;
 			}
 			break;
@@ -286,17 +275,7 @@ public class Serveur extends Start {
 		}
 	}
 
-	/*
-	 * public String readStatus (ByteBuffer bb){ try{ byte[] buff = new
-	 * byte[bb.remaining()]; bb.get(buff); String newStatus = new String(buff);
-	 * printStatus(newStatus);
-	 * 
-	 * }catch (Exception e){} return newStatus; }
-	 */
 
-	public void printStatus(String newStatus) {
-		ex.himStatus(newStatus);
-	}
 
 	public void printCommentaire(String Commentaire) {
 

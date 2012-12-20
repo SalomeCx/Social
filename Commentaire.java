@@ -1,83 +1,95 @@
 import java.net.InetAddress;
+import java.util.StringTokenizer;
 
 
 public class Commentaire {
 	
 	
-	private String commentaire;
-	private String exp;
-	private String dest;
-	public static String[] data2 = new String[10];
+	private String dest;		//Le destinataire
+	private String dateStatus;  //On prend la date du status pour lequelle on veut envoyer un commentaire
+	private String userName;	//Nom de l'expediteure
+	private String commentaire; //Le commentaire
 
 
 
+	//Constructeur
 	public Commentaire(){
 		this.commentaire = "";
 		this.dest = "";
-		this.exp = "";
+		this.userName = "";
+		this.dateStatus = "";
 	}
 	
-	public Commentaire(String commentaire, String Dest, String Exp){
-		this.commentaire = commentaire;
+	
+	//Constructeur
+	public Commentaire(String UserName, String DateStatus, String Dest, String Comm){
+		this.commentaire = Comm;
 		this.dest = Dest;
-		this.exp = Exp;
+		this.userName = UserName;
+		this.dateStatus = DateStatus;
 	}
 	
 	
-	
-	public static String getCommentaire(Commentaire comm){
-		return comm.commentaire;
+	//4 Accesseurs
+	public String getCommentaire(){
+		return this.commentaire;
+	}
+
+	public String getDateStatus(){
+		return this.dateStatus;
 	}
 	
-	public static String getExp(Commentaire comm){
-		return comm.exp;
+	public String getExp(){
+		return this.userName;
 	}
 	
 	
-	public static String getDest(Commentaire comm){
-		return comm.dest;
+	public String getDest(){
+		return this.dest;
 	}
 	
+	
+	//4 Mutateurs
 	public static void setCommentaire(Commentaire comm, String commentaire){
 		comm.commentaire = commentaire;
 	}
 	
+	public static void setDateStatus(Commentaire comm, String DateStatus){
+		comm.dateStatus= DateStatus;
+	}
+	
 	public static void setExp(Commentaire comm, String Exp){
-		comm.exp = Exp;
+		comm.userName = Exp;
 	}
 	
 	public static void setDest(Commentaire comm, String Dest){
 		comm.dest = Dest;
 	}
 	
-	public static void postCommentaire(Commentaire comm){
+	
+	//Fonction qui permet l'envoie de commentaires.
+	public void postCommentaire(){
 		try{
-		String data = "40" + comm.dest + comm.exp + comm.commentaire ;
-		Serveur.creationSocket(InetAddress.getByName(comm.dest), data);
+		String data = "11" + this.userName + "_&§&_" + this.dateStatus + "_&§&_" + this.dest + "_&§&_" + this.commentaire;
+		System.out.println(data);
+		Serveur.creationSocket(InetAddress.getByName(this.dest), data);
 		}catch(Exception e){}
 	}
-
-	public static void commentaireRecu(String data, int pos, int num){
-		//a finir
-		String stop = "";
-		if (data.length() == 0){
-			//System.out.println("fini");
-
+	
+	
+	//Fonction de traitement des commentaires recues.
+	public static Commentaire traiterCommentaireRecu(String data){
+		String[] tmp2 = new String [4];
+		int i = 0;
+		StringTokenizer data2 = new StringTokenizer(data, "_&§&_", false);
+		while(data2.hasMoreTokens()) {
+			tmp2[i] = data2.nextToken("_&§&_");
+			i++;
 		}
-
-		else
-		{for (int i = 0; i<pos; i++){
-			//System.out.println("fini");
-			stop.concat(String.valueOf(data.charAt(i)));
-			if (data.charAt(i) == ':'){
-				commentaireRecu(data.substring(i),i,num);
-				data2[num] = stop;
-			}
-		}
-		}
-
-
-	}}
+		return new Commentaire(tmp2[0], tmp2[1], tmp2[2], tmp2[3]);	
+	}
+	
+}
 	
 	
 
