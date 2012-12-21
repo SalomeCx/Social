@@ -59,6 +59,11 @@ public class Friend
     {
 	this.ismyfriend = true;
     }
+    
+    public void beUnfollowed()
+    {
+	this.amherfriend = false;
+    }
 
     protected static String getValue(String tag, Element element) 
     {
