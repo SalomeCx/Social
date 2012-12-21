@@ -10,6 +10,7 @@ import java.security.interfaces.*;
 /** 
  * Cette classe propose des méthodes permettant de crypter et décrypter des 
  * messages avec l'algorithme de Blowfish.
+ * Code trouvé sur http://cui.unige.ch/~deriazm/javasources/ mais inutilisé pour l'instant.
  */
 public class CryptBlow {
   public final static int KEY_SIZE = 128;  // [32..448]
