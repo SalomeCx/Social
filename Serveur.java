@@ -86,6 +86,22 @@ public class Serveur extends Start {
 		
 	}
 	
+	/* Supprimer un ami. ! Suppression de toutes les liaisons, il n'est pas possible de l'empêcher
+	de voir vos statuts mais de l'espionner quand même. */
+	public void supprAmi(String ami)
+	{
+		XmlTreat.treatFriend(ami, "false", "false");
+		for (int i = 0; i < tfr.length; i++)
+		{
+			if (ami.equals(tfr[i].getName()))
+			{
+				tfr[i].beUnfollowed();
+				tfr[i].unfollow();
+				break;
+			}
+		}
+	}
+	
 	//Post d'image
 	public static void postImage(InetAddress address, String image) {
 		String data = "40" + image;
