@@ -6,12 +6,14 @@
 /*
  * Interface.java
  *
- * Created on 4 déc. 2012, 17:12:44
+ * Created on 21 déc. 2012, 17:50:32
  */
+
+
 
 /**
  *
- * @author scoavoux
+ * @author ysenel
  */
 public class Interface extends javax.swing.JFrame {
 
@@ -30,192 +32,215 @@ public class Interface extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
-        ajoutAmi = new javax.swing.JFrame();
+        demandeAmi = new javax.swing.JFrame();
         ouiOui = new javax.swing.JButton();
         ouiNon = new javax.swing.JButton();
         nonNon = new javax.swing.JButton();
         demande = new javax.swing.JLabel();
-        statut = new javax.swing.JTextField();
-        post = new javax.swing.JButton();
-        listFriends = new javax.swing.JLabel();
+        connect = new javax.swing.JFrame();
+        connecter = new javax.swing.JLabel();
+        ok = new javax.swing.JButton();
+        status = new javax.swing.JTextField();
         pub = new javax.swing.JRadioButton();
         priv = new javax.swing.JRadioButton();
+        post = new javax.swing.JButton();
         myPosts = new javax.swing.JLabel();
         theirPosts = new javax.swing.JLabel();
-        addFriends = new javax.swing.JTextField();
-        add = new javax.swing.JButton();
         me = new javax.swing.JPanel();
         them = new javax.swing.JPanel();
+        addFriends = new javax.swing.JTextField();
+        add = new javax.swing.JButton();
+        suppr = new javax.swing.JButton();
         myFriends = new javax.swing.JPanel();
+        listFriends = new javax.swing.JLabel();
 
         ouiOui.setText("Oui, l'ajouter en retour");
 
         ouiNon.setText("Oui, mais ne pas l'ajouter");
 
-        nonNon.setText("Non, je ne veux pas qu'il/elle lise mes statuts public");
+        nonNon.setText("Non, je ne veux pas qu(il/elle lise mes status public");
 
-        demande.setText("Machin vous a ajouté comme ami(e). Voulez-vous?");
+        demande.setText("ysenel vous a ajouté comme ami(e). Voulez-vous?");
 
-        javax.swing.GroupLayout ajoutAmiLayout = new javax.swing.GroupLayout(ajoutAmi.getContentPane());
-        ajoutAmi.getContentPane().setLayout(ajoutAmiLayout);
-        ajoutAmiLayout.setHorizontalGroup(
-            ajoutAmiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ajoutAmiLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(ajoutAmiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(ajoutAmiLayout.createSequentialGroup()
-                        .addGroup(ajoutAmiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nonNon, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ajoutAmiLayout.createSequentialGroup()
-                                .addComponent(ouiOui)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ouiNon)))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ajoutAmiLayout.createSequentialGroup()
-                        .addComponent(demande)
-                        .addGap(37, 37, 37))))
+        javax.swing.GroupLayout demandeAmiLayout = new javax.swing.GroupLayout(demandeAmi.getContentPane());
+        demandeAmi.getContentPane().setLayout(demandeAmiLayout);
+        demandeAmiLayout.setHorizontalGroup(
+            demandeAmiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(demandeAmiLayout.createSequentialGroup()
+                .addGroup(demandeAmiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(demandeAmiLayout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(demande, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(demandeAmiLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(ouiOui, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(ouiNon, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, demandeAmiLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(nonNon, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)))
+                .addContainerGap())
         );
-        ajoutAmiLayout.setVerticalGroup(
-            ajoutAmiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ajoutAmiLayout.createSequentialGroup()
+        demandeAmiLayout.setVerticalGroup(
+            demandeAmiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(demandeAmiLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(demande, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(ajoutAmiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(demande, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(demandeAmiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ouiOui)
                     .addComponent(ouiNon))
                 .addGap(18, 18, 18)
                 .addComponent(nonNon)
-                .addGap(20, 20, 20))
+                .addContainerGap(33, Short.MAX_VALUE))
+        );
+
+        connecter.setText("toto est connecté");
+
+        ok.setText("OK");
+
+        javax.swing.GroupLayout connectLayout = new javax.swing.GroupLayout(connect.getContentPane());
+        connect.getContentPane().setLayout(connectLayout);
+        connectLayout.setHorizontalGroup(
+            connectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(connectLayout.createSequentialGroup()
+                .addGap(115, 115, 115)
+                .addGroup(connectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(ok, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(connecter, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE))
+                .addContainerGap(141, Short.MAX_VALUE))
+        );
+        connectLayout.setVerticalGroup(
+            connectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(connectLayout.createSequentialGroup()
+                .addGap(45, 45, 45)
+                .addComponent(connecter)
+                .addGap(18, 18, 18)
+                .addComponent(ok)
+                .addContainerGap(93, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        post.setText("Publier");
-
-        listFriends.setText("Liste d'amis");
 
         pub.setText("Public");
 
         priv.setText("Privé");
 
+        post.setText("Publier");
+
         myPosts.setText("Moi");
 
         theirPosts.setText("Vous");
-
-        addFriends.setText("Nom d'utilisateur");
-
-        add.setText("Ajouter");
 
         javax.swing.GroupLayout meLayout = new javax.swing.GroupLayout(me);
         me.setLayout(meLayout);
         meLayout.setHorizontalGroup(
             meLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 271, Short.MAX_VALUE)
+            .addGap(0, 242, Short.MAX_VALUE)
         );
         meLayout.setVerticalGroup(
             meLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 482, Short.MAX_VALUE)
+            .addGap(0, 399, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout themLayout = new javax.swing.GroupLayout(them);
         them.setLayout(themLayout);
         themLayout.setHorizontalGroup(
             themLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 267, Short.MAX_VALUE)
+            .addGap(0, 258, Short.MAX_VALUE)
         );
         themLayout.setVerticalGroup(
             themLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 474, Short.MAX_VALUE)
+            .addGap(0, 399, Short.MAX_VALUE)
         );
+
+        addFriends.setText("Nom d'utilisateur");
+
+        add.setText("Ajouter");
+
+        suppr.setText("Supprimer");
 
         javax.swing.GroupLayout myFriendsLayout = new javax.swing.GroupLayout(myFriends);
         myFriends.setLayout(myFriendsLayout);
         myFriendsLayout.setHorizontalGroup(
             myFriendsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 225, Short.MAX_VALUE)
+            .addGap(0, 151, Short.MAX_VALUE)
         );
         myFriendsLayout.setVerticalGroup(
             myFriendsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 384, Short.MAX_VALUE)
+            .addGap(0, 276, Short.MAX_VALUE)
         );
+
+        listFriends.setText("Liste d'amis");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(statut, javax.swing.GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(63, 63, 63)
-                        .addComponent(myPosts, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(134, 134, 134)
-                        .addComponent(theirPosts, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(108, 108, 108))
+                        .addComponent(status, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(33, 33, 33)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(pub)
+                            .addComponent(priv))
+                        .addGap(38, 38, 38)
+                        .addComponent(post, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
+                        .addGap(42, 42, 42)
+                        .addComponent(myPosts)
+                        .addGap(236, 236, 236)
+                        .addComponent(theirPosts))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
                         .addComponent(me, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(17, 17, 17)
-                        .addComponent(them, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(70, 70, 70)
-                        .addComponent(add))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(priv)
-                            .addComponent(pub))
-                        .addGap(32, 32, 32)
-                        .addComponent(post, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(13, 13, 13))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(addFriends, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26))
-                    .addComponent(listFriends, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(myFriends, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                        .addGap(18, 18, 18)
+                        .addComponent(them, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(listFriends)
+                            .addComponent(myFriends, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(addFriends)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(suppr)
+                                    .addComponent(add, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(17, 17, 17)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(45, 45, 45)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(post, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(status, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(statut, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(post, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(pub)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(priv)))
-                        .addGap(8, 8, 8)))
+                        .addComponent(pub)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(priv)))
+                .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(myPosts)
                     .addComponent(theirPosts))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(them, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(me, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(addFriends, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(add)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(listFriends, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(myFriends, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(them, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(me, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(83, 83, 83))
+                        .addComponent(suppr)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(listFriends)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                        .addComponent(myFriends, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
-        
         buttonGroup1.add(pub);
         buttonGroup1.add(priv);
         pub.setSelected(true);
@@ -231,20 +256,24 @@ public class Interface extends javax.swing.JFrame {
     // Variables declaration - do not modify
     public javax.swing.JButton add;
     public javax.swing.JTextField addFriends;
-    public javax.swing.JFrame ajoutAmi;
     public javax.swing.ButtonGroup buttonGroup1;
+    public javax.swing.JFrame connect;
+    public javax.swing.JLabel connecter;
     public javax.swing.JLabel demande;
+    public javax.swing.JFrame demandeAmi;
     public javax.swing.JLabel listFriends;
     public javax.swing.JPanel me;
     public javax.swing.JPanel myFriends;
     public javax.swing.JLabel myPosts;
     public javax.swing.JButton nonNon;
+    public javax.swing.JButton ok;
     public javax.swing.JButton ouiNon;
     public javax.swing.JButton ouiOui;
     public javax.swing.JButton post;
     public javax.swing.JRadioButton priv;
     public javax.swing.JRadioButton pub;
-    public javax.swing.JTextField statut;
+    public javax.swing.JTextField status;
+    public javax.swing.JButton suppr;
     public javax.swing.JLabel theirPosts;
     public javax.swing.JPanel them;
     // End of variables declaration

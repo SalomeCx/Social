@@ -12,7 +12,6 @@ import javax.swing.JLabel;
 public class Start{
 	public static Friend friend;
     public static InetAddress[] address;
-    //public static boolean[] connected; //true si la personne est connectée, false sinon.
     public static int nb;
     public static Friend[] tfr;
     public static Interface ex;
@@ -20,7 +19,7 @@ public class Start{
     
     
     //On cherche l'addresse de l'utilisateur dans le fichier xml 
-    //pour pouvoir lui envoyer un demande d'amis.
+    //pour pouvoir lui envoyer une demande d'amis.
     public static String searchAddress(String name){
     	for (int i =0; i < tfr.length; i++)
     	{
@@ -54,9 +53,6 @@ public class Start{
 		ex.myFriends.validate();
 		
 	}
-        
-    
-    
 
     public static void main(String[] args){
     	
@@ -73,16 +69,38 @@ public class Start{
     		public void actionPerformed(ActionEvent event) {
     			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy HH:mm");
     			Date date = new Date();
-    			JLabel label = new JLabel(user + ex.statut.getText() + " - ["
+    			JLabel label = new JLabel(user + ex.status.getText() + " - ["
     					+ dateFormat.format(date) + "]");
-    			Serveur.postStatus(ex.statut.getText(), ex.pub.isSelected());
-    			ex.statut.setText("");
+    			Serveur.postStatus(ex.status.getText(), ex.pub.isSelected());
+    			ex.status.setText("");
     			ex.me.add(label);
     			ex.me.setLayout(new BoxLayout(ex.me, BoxLayout.Y_AXIS));
     			ex.me.setAlignmentY(Component.TOP_ALIGNMENT);
     			ex.me.validate();
     		}
     	});
+    	
+    	//Ajout d'action au bouton "Supprimer" pour
+    	//supprimer un ami.
+      	ex.suppr.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent event) {
+    			Serveur.supprAmi(ex.addFriends.getText());
+    		}
+    	});
+      	
+      	
+      	//Ajout d'action au bouton "OK" pour fermer la fenetre
+      	//qui s'ouvre lors de la connexion d'un de mes amis.
+      	ex.ok.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent event) {
+    			ex.connect.setVisible(false);
+    		}
+    	});
+      	
+      	
+
+    	
+    	
 		
 		
     	//Bouton ajout d'amis qui ajoute les amis à la liste d'amis
@@ -112,6 +130,7 @@ public class Start{
 	    for (int i = 0; i < nb; i++){
 		address[i] = InetAddress.getByName(tfr[i].getAddress());
 	    }
+	
 	}catch(Exception e){ System.err.println(e); }
 	Serveur serv = new Serveur();
 	serv.run();

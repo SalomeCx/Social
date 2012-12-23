@@ -24,12 +24,13 @@ public class Serveur extends Start {
 	public static final int port = 5234; //port par défaut
 	private String newStatus;
 	private String newCommentaire;
-
+    
 	public Serveur() {
 	}
 
-	//Lancer la socket d'écoute
+	//Lancer la socket d'écoute et dire aux autres utilisateurs que je suis connecté.
 	public void run() {
+		conect();
 		listener();
 	}
 	
@@ -40,14 +41,16 @@ public class Serveur extends Start {
 		Socket s;
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy HH:mm");
 		Date date = new Date();
-		String data = "10" + System.getProperty("user.name") + "_&§&_" + dateFormat.format(date) + "_&§&_" + status;
+		String data = "10" + System.getProperty("user.name") + "##" + dateFormat.format(date) + "##" + status;
 		for (int i = 0; i < nb; i++) {
 			/*
 			 * Si mon statut est public, je l'envoie à ceux qui me suivent,
 			 * sinon, je l'envoie à ceux qui me suivent et que je suis.
 			 */
+			
 			if ((pub & tfr[i].amFollowed())
 					| (!(pub) & tfr[i].amFollowed() & tfr[i].doFollow())) {
+		
 				try {
 					s = new Socket(address[i], port);
 					OutputStream os = s.getOutputStream();
@@ -56,6 +59,7 @@ public class Serveur extends Start {
 					ps.flush();
 					ps.close();
 					s.close();
+					
 
 				} catch (Exception e) {
 				}
@@ -66,29 +70,23 @@ public class Serveur extends Start {
 			 */
 		}
 	}
+	
+	//Fonction pour dire que je suis connecté aux autres utilisateurs.
+	public static void conect(){
+		try{
+			String data = "00" + System.getProperty("user.name") + "##" + InetAddress.getLocalHost().toString();
 
+			for (int i = 0; i < nb; i++) {
+				creationSocket(address[i], data);
 
-
-
-
-	//post de Commentaire
-	public static void postCommentaire(InetAddress address, String commentaire) {
-		String data = "40" + commentaire;
-		creationSocket(address, data);
+			}
+		}catch(Exception e){}
 	}
 
-
-
-	//Demande d'amis
-	public static void demandeAmis(InetAddress address){
-		String data = "20" + System.getProperty("user.name") + "_&§&_" + address.getHostName();
-		creationSocket(address, data);
-		
-	}
 	
 	/* Supprimer un ami. ! Suppression de toutes les liaisons, il n'est pas possible de l'empêcher
 	de voir vos statuts mais de l'espionner quand même. */
-	public void supprAmi(String ami)
+	public static void supprAmi(String ami)
 	{
 		XmlTreat.treatFriend(ami, "false", "false");
 		for (int i = 0; i < tfr.length; i++)
@@ -101,10 +99,28 @@ public class Serveur extends Start {
 			}
 		}
 	}
+
+
+
+
+	//post de Commentaire
+	public static void postCommentaire(InetAddress address, String commentaire) {
+		String data = "11" + commentaire;
+		creationSocket(address, data);
+	}
+
+
+
+	//Demande d'amis
+	public static void demandeAmis(InetAddress address){
+		String data = "20" + System.getProperty("user.name") + "##" + address.getHostName();
+		creationSocket(address, data);
+		
+	}
 	
 	//Post d'image
 	public static void postImage(InetAddress address, String image) {
-		String data = "40" + image;
+		String data = "40" + "##" + image;
 		creationSocket(address, data);
 	}
 
@@ -126,7 +142,8 @@ public class Serveur extends Start {
 	}
 
 	//Socket d'écoute: select.
-	//On envoit le String reçu à la fonction qui analyse le String: analayseData.
+	//On envoit le String reçu à la class de traitement "Protocole" et "Splitter"
+	//puis on fait appel aux fonctions d'affichage pour afficher dans l'interface.
 	public void listener() {
 		try {
 			ServerSocketChannel ssc = ServerSocketChannel.open();
@@ -162,7 +179,13 @@ public class Serveur extends Start {
 							st.close();
 
 						} else {
-							analyseData(bb);
+							byte[] buff = new byte[bb.remaining()];
+							bb.get(buff);
+							String receiveData = new String(buff);
+							System.out.println(receiveData);
+							int reqcode = Integer.parseInt(receiveData.substring(0, 2));
+							String data = receiveData.substring(2);
+							Protocole.treatmentProtocol(reqcode, data);
 							key.cancel();
 						}
 					}
@@ -172,128 +195,4 @@ public class Serveur extends Start {
 		} catch (Exception e) {}
 	}
 
-
-	
-	//Fonction analyseData qui fait appel aux différentes fonctions de traitement par rapport à l'en-tete du String. 
-	public void analyseData(ByteBuffer bb) {
-		byte[] buff = new byte[bb.remaining()];
-		bb.get(buff);
-		String receiveData = new String(buff);
-		System.out.println(receiveData);
-		String so1 = receiveData.substring(0, 1);
-		int o1 = Integer.parseInt(so1);
-		switch (o1) {
-		case 1:
-			String s001 = receiveData.substring(1, 2);
-			int o11 = Integer.parseInt(s001);
-			switch (o11) {
-			case 0:
-				newStatus = receiveData.substring(2);
-				Traitement.traiterStatusAmisRecu(newStatus);
-				break;
-			case 1:
-				newCommentaire = receiveData.substring(2);
-				printCommentaire(newCommentaire); // envoi commentaire
-				break;
-			}
-			break;
-		case 2:
-			String so2 = receiveData.substring(1, 2);
-			String s002 = receiveData.substring(1, 2);
-			int o2 = Integer.parseInt(so2);
-			switch (o2) {
-			case 0:
-				try {
-					
-					final String[] s = Traitement.traiterDemandeAmisRecu(receiveData.substring(2));
-					//final Friend friend = new Friend(s[0], s[1], false, false);
-					ex.demande.setText(s[0] + " vous a ajouté comme ami(e). Voulez-vous?");
-					ex.ajoutAmi.setSize(400, 250);
-					ex.ajoutAmi.setVisible(true);
-			    	ex.ouiOui.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent event) {
-							Start.ajouterAmisDansListe(s[0]);
-							ex.ajoutAmi.setVisible(false);
-						
-							XmlTreat.treatFriend(s[0], "true", "true");
-							
-						}});
-			    	
-			    	ex.ouiNon.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent event) {
-							ex.ajoutAmi.setVisible(false);
-							XmlTreat.treatFriend(s[0], "false", "true");
-								}
-					});
-			    	
-			    	ex.nonNon.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent event) {
-							ex.ajoutAmi.setVisible(false);
-							XmlTreat.treatFriend(s[0], "false", "false");
-								}
-					});
-			    	
-				} catch (Exception e) {
-				}
-				break;
-			case 1:
-				String s005 = receiveData.substring(2);
-				//traiterData20(s005); // Réponse (+) amis, envoi liste d'amis +
-				// status (public et privé) +
-				// commentaires
-				break;
-			case 2:
-				String s006 = receiveData.substring(2);
-				//traiterData21(s006); // Réponse (-) amis, envoi liste amis +
-				// status public
-				break;
-			case 3:
-				try {
-					String s003 = receiveData.substring(2);
-					//envoieListeAmis(InetAddress.getByName(s003)); // Demande
-					// Liste
-					// Amis, on
-					// envoie la
-					// liste
-					// d'amis
-				} catch (Exception e) {
-				}
-			case 4:
-				String s = "";
-				//traiterListeAmisRecu(s); // On recoit la liste d'un amis et on
-				// la traite
-			}
-			break;
-		case 3:
-			char o3 = receiveData.charAt(1);
-			switch (o3) {
-			case 0:
-				try {
-					String s004 = receiveData.substring(2);
-					String status = "";
-					//envoieStatus(InetAddress.getByName(s004), status); // Demande
-					// status
-					// ->
-					// envoie
-					// status
-				} catch (Exception e) {
-				}
-				break;
-			case 1:
-				String s = "";
-				//traiterStatusAmisRecu(s);// On recoit les status de l'ami
-				break;
-			}
-			break;
-		case 4:
-			// Image
-			break;
-		}
-	}
-
-
-
-	public void printCommentaire(String Commentaire) {
-
-	}
 }

@@ -40,7 +40,6 @@ public class XmlTreat
  
 	    for (int i = 0; i < friend.getLength(); i++) 
 		{
-	    	System.out.println(i);
 		    Node node = friend.item(i);
 		    if (node.getNodeType() == Node.ELEMENT_NODE)
 			{

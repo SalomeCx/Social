@@ -70,25 +70,12 @@ public class Commentaire {
 	//Fonction qui permet l'envoie de commentaires.
 	public void postCommentaire(){
 		try{
-		String data = "11" + this.userName + "_&§&_" + this.dateStatus + "_&§&_" + this.dest + "_&§&_" + this.commentaire;
+		String data = "11" + this.userName + "##" + this.dateStatus + "##" + this.dest + "##" + this.commentaire;
 		System.out.println(data);
 		Serveur.creationSocket(InetAddress.getByName(this.dest), data);
 		}catch(Exception e){}
 	}
-	
-	
-	//Fonction de traitement des commentaires recues.
-	public static Commentaire traiterCommentaireRecu(String data){
-		String[] tmp2 = new String [4];
-		int i = 0;
-		StringTokenizer data2 = new StringTokenizer(data, "_&§&_", false);
-		while(data2.hasMoreTokens()) {
-			tmp2[i] = data2.nextToken("_&§&_");
-			i++;
-		}
-		return new Commentaire(tmp2[0], tmp2[1], tmp2[2], tmp2[3]);	
-	}
-	
+		
 }
 	
 	
