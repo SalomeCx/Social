@@ -1,11 +1,14 @@
-***********************************************************
-*                        SOCIAL                           *
-*    Un programme comme Facebook, mais en moins grand.    *
-***********************************************************
+***************************************************************
+*                                                             *
+*                          Réseau                             * 
+*               Yasin SENEL & Salomé COAVOUX                  *
+*                                                             *
+***************************************************************
 
-Auteurs: Yasin SENEL & Salomé COAVOUX.
+Outils Utilisés :
+Java, XML
+
 En partenariat avec: Aymeric MIVIELLE & Jérémie BONAL & Matthieu DESPLAT & Grégory EMIRIAN.
-Copyright: Aucun droits réservés.
 
 Mode d'emploi:
 
@@ -25,5 +28,3 @@ automatiquement en fonction des liens d'amitié que vous créez.
 java Start &
 
 5. Restez en contact avec tous vos amis.
-
-Enjoy!
